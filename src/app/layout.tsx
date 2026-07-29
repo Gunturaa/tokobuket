@@ -17,7 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Blossom & Co. | Premium Flower Bouquets",
+  title: "Lila of the Valley | Premium Flower Bouquets",
   description: "Make every moment special with our premium, handcrafted flower bouquets for graduation, birthdays, and anniversaries.",
 };
 

@@ -50,7 +50,7 @@ export default async function AdminSettingsPage() {
               <input
                 type="text"
                 name="store_name"
-                defaultValue={settings?.store_name || "Toko Buket Bunga"}
+                defaultValue={settings?.store_name || "Lila of the Valley"}
                 className="w-full rounded-2xl border-stone-200 bg-stone-50 p-4 text-sm focus:border-primary focus:ring-primary transition-all outline-none border"
                 required
               />

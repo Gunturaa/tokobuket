@@ -44,10 +44,10 @@ export function Navbar() {
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <Flower2 className="w-8 h-8 text-primary transition-transform group-hover:rotate-12 duration-300" />
-          <span className="font-serif text-2xl font-bold tracking-tight text-foreground">
-            Blossom & Co.
+        <Link href="/" className="flex items-center gap-2 text-stone-900 group">
+          <Flower2 className="w-6 h-6 text-primary group-hover:rotate-12 transition-transform" />
+          <span className="font-serif text-xl font-bold tracking-tight">
+            Lila of the Valley
           </span>
         </Link>
 

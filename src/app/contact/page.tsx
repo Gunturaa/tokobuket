@@ -84,7 +84,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-semibold text-stone-900 mb-1">Instagram</h3>
                 <p className="text-stone-500 text-sm mb-2">Lihat karya terbaru kami</p>
-                <p className="text-stone-900 font-medium">@blossomandco</p>
+                <p className="text-stone-900 font-medium">@lilaofvalley</p>
               </div>
             </motion.a>
 

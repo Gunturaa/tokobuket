@@ -9,7 +9,7 @@ export function WhatsAppFloatingButton({ settings }: { settings?: any }) {
   }
 
   const phoneNumber = settings?.whatsapp_number || "6289515441332"; // Format: country code without + and phone number
-  const defaultMessage = encodeURIComponent(settings?.default_message || "Halo, saya ingin bertanya tentang Toko Buket Bunga!");
+  const defaultMessage = encodeURIComponent(settings?.default_message || "Halo, saya ingin bertanya tentang Lila of the Valley!");
   const waUrl = `https://wa.me/${phoneNumber}?text=${defaultMessage}`;
 
   return (

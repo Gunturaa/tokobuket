@@ -29,11 +29,14 @@ export default function HomeClient({ products }: { products: any[] }) {
       {/* Hero Section */}
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="flex flex-col items-center justify-center bg-gradient-to-tr from-pink-100 via-rose-50 to-amber-50 animate-pulse-gradient text-pink-300 border border-white/50 w-full h-full">
-            <ImageIcon className="w-12 h-12 mb-3 opacity-60 drop-shadow-sm" />
-            <span className="text-sm font-semibold tracking-wider uppercase text-pink-400/80">Gambar Hero / Banner</span>
-          </div>
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
+          <Image 
+            src="https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?q=80&w=2000&auto=format&fit=crop"
+            alt="Hero Floral Background"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
         </div>
         
         <div className="container relative z-10 mx-auto px-4 text-center">

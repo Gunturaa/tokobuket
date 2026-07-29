@@ -59,7 +59,7 @@ export default function AboutPage() {
             >
               <h2 className="text-3xl font-serif font-bold text-stone-900">Lebih dari sekadar florist</h2>
               <p className="text-stone-600 leading-relaxed text-lg">
-                Didirikan dengan penuh gairah akan seni merangkai bunga, Blossom & Co. percaya bahwa setiap buket menceritakan sebuah kisah yang unik. Kami tidak hanya sekadar menyusun bunga; kami merangkai emosi, kenangan, dan pesan cinta yang mendalam.
+                Didirikan dengan penuh gairah akan seni merangkai bunga, Lila of the Valley percaya bahwa setiap buket menceritakan sebuah kisah yang unik. Kami tidak hanya sekadar menyusun bunga; kami merangkai emosi, kenangan, dan pesan cinta yang mendalam.
               </p>
               <p className="text-stone-600 leading-relaxed text-lg">
                 Perjalanan kami dimulai di sebuah studio kecil di Jakarta, didorong oleh keinginan untuk menghadirkan rangkaian bunga premium yang estetik untuk merayakan momen-momen paling berharga dalam hidup Anda.

@@ -30,7 +30,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 text-white">
               <Flower2 className="w-8 h-8 text-primary" />
               <span className="font-serif text-2xl font-bold tracking-tight">
-                Blossom & Co.
+                Lila of the Valley
               </span>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs text-stone-400">
@@ -80,8 +80,8 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <InstagramIcon className="w-5 h-5 text-primary shrink-0" />
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
-                  @blossomandco
+                <a href="https://instagram.com/lilaofvalley" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
+                  @lilaofvalley
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
@@ -94,7 +94,7 @@ export function Footer() {
         </div>
         
         <div className="border-t border-stone-800 mt-16 pt-8 text-center text-sm text-stone-500 flex flex-col md:flex-row items-center justify-between">
-          <p>&copy; {new Date().getFullYear()} Blossom & Co. Hak Cipta Dilindungi.</p>
+          <p>&copy; {new Date().getFullYear()} Lila of the Valley. Hak Cipta Dilindungi.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <Link href="#" className="hover:text-white transition-colors">Kebijakan Privasi</Link>
             <Link href="#" className="hover:text-white transition-colors">Syarat & Ketentuan</Link>

@@ -15,10 +15,12 @@ export default async function LoginPage({
         
         <div className="flex flex-col items-center justify-center text-center">
           <Link href="/" className="inline-flex items-center gap-2 text-stone-900 mb-6">
-            <Flower2 className="w-8 h-8 text-primary" />
-            <span className="font-serif text-2xl font-bold tracking-tight">
-              Blossom & Co.
-            </span>
+            <div className="flex items-center gap-2 mb-2">
+              <Flower2 className="w-8 h-8 text-primary" />
+              <span className="font-serif text-2xl font-bold tracking-tight text-stone-900">
+                Lila of the Valley
+              </span>
+            </div>
           </Link>
           <h2 className="text-2xl font-bold text-stone-900">Admin Dashboard</h2>
           <p className="mt-2 text-sm text-stone-500">
@@ -39,7 +41,7 @@ export default async function LoginPage({
                 autoComplete="email"
                 required
                 className="w-full rounded-2xl border-white/60 bg-white/50 backdrop-blur-sm p-4 text-sm focus:border-primary focus:ring-primary focus:bg-white transition-all outline-none border shadow-inner"
-                placeholder="admin@blossom.co"
+                placeholder="admin@lilaofvalley.com"
               />
             </div>
             <div>
