@@ -44,8 +44,12 @@ export function DeleteOrderButton({ orderId }: { orderId: string }) {
 
   const handleDelete = () => {
     if (confirm("Apakah Anda yakin ingin menghapus pesanan ini?")) {
-      startTransition(() => {
-        deleteOrder(orderId);
+      startTransition(async () => {
+        try {
+          await deleteOrder(orderId);
+        } catch (e: any) {
+          alert(e.message || "Gagal menghapus pesanan");
+        }
       });
     }
   };

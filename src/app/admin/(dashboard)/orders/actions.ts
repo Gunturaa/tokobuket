@@ -1,10 +1,18 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
+// Helper to create admin client with service role key (bypasses RLS)
+const getAdminClient = () => {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+};
+
 export async function updateOrderStatus(orderId: string, newStatus: string) {
-  const supabase = await createClient();
+  const supabase = getAdminClient();
 
   const { error } = await supabase
     .from("orders")
@@ -16,11 +24,11 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
     throw new Error("Gagal memperbarui status pesanan.");
   }
 
-  revalidatePath("/admin/orders");
+  revalidatePath("/admin", "layout");
 }
 
 export async function deleteOrder(orderId: string) {
-  const supabase = await createClient();
+  const supabase = getAdminClient();
 
   const { error } = await supabase
     .from("orders")
@@ -32,5 +40,5 @@ export async function deleteOrder(orderId: string) {
     throw new Error("Gagal menghapus pesanan.");
   }
 
-  revalidatePath("/admin/orders");
+  revalidatePath("/admin", "layout");
 }

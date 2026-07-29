@@ -119,15 +119,22 @@ export default function ContactPage() {
             </div>
             
             <p className="text-stone-600 mb-6">
-              Kami berlokasi di pusat kota Jakarta. Pengiriman tersedia untuk seluruh area kota dan sekitarnya. Untuk mengambil pesanan sendiri (self-pickup), silakan buat janji temu dengan kami melalui WhatsApp.
+              Kami berlokasi di area Sleman, Yogyakarta. Pengiriman tersedia untuk seluruh area kota dan sekitarnya. Untuk mengambil pesanan sendiri (self-pickup), silakan buat janji temu dengan kami melalui WhatsApp.
             </p>
 
-            {/* Placeholder for map - in a real app, use Google Maps iframe */}
-            <div className="flex-1 w-full bg-stone-100 rounded-2xl overflow-hidden relative min-h-[300px]">
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-stone-400">
-                <MapPin className="w-12 h-12 mb-2 opacity-50" />
-                <span>Jakarta, Indonesia</span>
-              </div>
+            <div className="flex-1 w-full bg-stone-100 rounded-2xl overflow-hidden relative min-h-[350px]">
+              <iframe 
+                src="https://maps.google.com/maps?q=Kos+Putri+Srikaton+9&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                width="100%" 
+                height="100%" 
+                frameBorder="0" 
+                scrolling="no" 
+                className="absolute inset-0"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </motion.div>
 
