@@ -67,9 +67,35 @@ export default async function AdminLayout({
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 md:ml-64 p-8">
+      <main className="flex-1 md:ml-64 p-4 md:p-8 pb-24 md:pb-8">
         {children}
       </main>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 flex items-center justify-around p-3 z-50 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.1)]">
+        <Link href="/admin" className="flex flex-col items-center gap-1 text-stone-500 hover:text-stone-900 transition-colors p-2">
+          <LayoutDashboard className="w-5 h-5" />
+          <span className="text-[10px] font-medium">Overview</span>
+        </Link>
+        <Link href="/admin/products" className="flex flex-col items-center gap-1 text-stone-500 hover:text-stone-900 transition-colors p-2">
+          <Package className="w-5 h-5" />
+          <span className="text-[10px] font-medium">Produk</span>
+        </Link>
+        <Link href="/admin/orders" className="flex flex-col items-center gap-1 text-stone-500 hover:text-stone-900 transition-colors p-2">
+          <ShoppingCart className="w-5 h-5" />
+          <span className="text-[10px] font-medium">Pesanan</span>
+        </Link>
+        <Link href="/admin/settings" className="flex flex-col items-center gap-1 text-stone-500 hover:text-stone-900 transition-colors p-2">
+          <Settings className="w-5 h-5" />
+          <span className="text-[10px] font-medium">Pengaturan</span>
+        </Link>
+        <form action={logout} className="p-2">
+          <button className="flex flex-col items-center gap-1 text-red-500 hover:text-red-700 transition-colors">
+            <LogOut className="w-5 h-5" />
+            <span className="text-[10px] font-medium">Keluar</span>
+          </button>
+        </form>
+      </nav>
     </div>
   );
 }
