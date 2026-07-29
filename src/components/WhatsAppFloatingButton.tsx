@@ -3,9 +3,13 @@
 import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function WhatsAppFloatingButton() {
-  const phoneNumber = "6289515441332"; // Format: country code without + and phone number
-  const defaultMessage = encodeURIComponent("Halo, saya ingin bertanya tentang Blossom & Co.!");
+export function WhatsAppFloatingButton({ settings }: { settings?: any }) {
+  if (settings && settings.is_open === false) {
+    return null; // Hide button if store is closed
+  }
+
+  const phoneNumber = settings?.whatsapp_number || "6289515441332"; // Format: country code without + and phone number
+  const defaultMessage = encodeURIComponent(settings?.default_message || "Halo, saya ingin bertanya tentang Toko Buket Bunga!");
   const waUrl = `https://wa.me/${phoneNumber}?text=${defaultMessage}`;
 
   return (

@@ -17,6 +17,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
+  const { data: settingsData } = await supabase
+    .from("settings")
+    .select("*")
+    .single();
+
   const product = {
     id: p.id,
     name: p.name,
@@ -28,5 +33,5 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     isAvailable: p.is_available,
   };
 
-  return <ProductDetailClient product={product} />;
+  return <ProductDetailClient product={product} settings={settingsData} />;
 }

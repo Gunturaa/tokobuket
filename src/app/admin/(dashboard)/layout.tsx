@@ -47,9 +47,9 @@ export default async function AdminLayout({
             <ShoppingCart className="w-5 h-5" />
             Pesanan (Segera)
           </Link>
-          <Link href="/admin/settings" className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl text-stone-400 cursor-not-allowed transition-all">
+          <Link href="/admin/settings" className="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl text-stone-600 hover:text-stone-900 hover:bg-stone-50 transition-all">
             <Settings className="w-5 h-5" />
-            Pengaturan (Segera)
+            Pengaturan
           </Link>
         </nav>
 

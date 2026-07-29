@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, MessageCircle, Truck, ShieldCheck, Clock, Image as ImageIcon } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
 
-export default function ProductDetailClient({ product }: { product: any }) {
+export default function ProductDetailClient({ product, settings }: { product: any, settings: any }) {
   const [customMessage, setCustomMessage] = useState("");
 
   if (!product) {
@@ -18,8 +18,9 @@ export default function ProductDetailClient({ product }: { product: any }) {
   const handleOrder = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const phoneNumber = "6289515441332";
-    const text = `Halo kak, saya mau pesan:
+    const phoneNumber = settings?.whatsapp_number || "6289515441332";
+    const defaultMsg = settings?.default_message || "Halo kak, saya mau pesan:";
+    const text = `${defaultMsg}
 Produk: ${product.name}
 Ucapan: ${customMessage || "-"}
 Harga: ${formatCurrency(product.price)}`;
@@ -112,13 +113,28 @@ Harga: ${formatCurrency(product.price)}`;
                 </p>
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
-              >
-                <MessageCircle className="w-5 h-5" />
-                Pesan via WhatsApp
-              </button>
+              <div className="space-y-4 pt-4">
+                {(!settings || settings.is_open) ? (
+                  <button 
+                    type="submit"
+                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-medium py-4 px-8 rounded-xl flex items-center justify-center transition-all hover:-translate-y-1 active:scale-[0.98] shadow-lg"
+                  >
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Pesan via WhatsApp
+                  </button>
+                ) : (
+                  <button 
+                    disabled
+                    className="w-full bg-stone-200 text-stone-500 font-medium py-4 px-8 rounded-xl flex items-center justify-center cursor-not-allowed"
+                  >
+                    Toko Sedang Tutup
+                  </button>
+                )}
+                
+                <p className="text-center text-xs text-stone-500">
+                  Pembayaran dilakukan setelah pesanan dikonfirmasi via WhatsApp
+                </p>
+              </div>
             </form>
 
             {/* Trust Badges */}

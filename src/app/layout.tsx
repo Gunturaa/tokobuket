@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
+import { createClient } from "@/utils/supabase/server";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -20,11 +21,16 @@ export const metadata: Metadata = {
   description: "Make every moment special with our premium, handcrafted flower bouquets for graduation, birthdays, and anniversaries.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const { data: settings } = await supabase
+    .from("settings")
+    .select("*")
+    .single();
   return (
     <html
       lang="en"
@@ -36,7 +42,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <WhatsAppFloatingButton />
+        <WhatsAppFloatingButton settings={settings} />
       </body>
     </html>
   );
