@@ -206,15 +206,15 @@ export default function HomeClient({ products }: { products: any[] }) {
         
         <div className="container relative z-10 mx-auto px-4 text-center">
           <Sparkles className="w-12 h-12 mx-auto mb-6 opacity-80" />
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Ingin Sesuatu yang Unik?</h2>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Sudah Memesan?</h2>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 font-light">
-            Biarkan florist ahli kami membuat buket kustom yang disesuaikan secara khusus dengan selera dan budget Anda.
+            Cek status pesanan Anda dengan mudah menggunakan Order ID yang diberikan saat pemesanan.
           </p>
           <Link
-            href="/custom"
+            href="/track"
             className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-primary bg-white rounded-full hover:bg-stone-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
           >
-            Buat Buket Kustom
+            Lacak Pesanan
           </Link>
         </div>
       </section>

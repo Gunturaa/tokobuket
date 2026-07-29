@@ -11,7 +11,7 @@ const categories = [
   { id: "graduation", label: "Kelulusan" },
   { id: "birthday", label: "Ulang Tahun" },
   { id: "romantic", label: "Romantis" },
-  { id: "custom", label: "Kustom" },
+  { id: "ready", label: "Ready Stock" },
   { id: "other", label: "Lainnya" },
 ];
 

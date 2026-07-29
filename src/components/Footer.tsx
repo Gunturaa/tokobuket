@@ -48,7 +48,7 @@ export function Footer() {
                 <Link href="/products" className="text-sm hover:text-primary transition-colors">Koleksi Kami</Link>
               </li>
               <li>
-                <Link href="/custom" className="text-sm hover:text-primary transition-colors">Buket Kustom</Link>
+                <Link href="/track" className="text-sm hover:text-primary transition-colors">Lacak Pesanan</Link>
               </li>
               <li>
                 <Link href="/about" className="text-sm hover:text-primary transition-colors">Tentang Kami</Link>

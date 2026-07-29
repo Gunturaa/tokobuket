@@ -49,6 +49,7 @@ export default async function AdminOrdersPage() {
                 <th className="py-4 px-6 font-semibold text-sm text-stone-600">ID / Tanggal</th>
                 <th className="py-4 px-6 font-semibold text-sm text-stone-600">Pelanggan</th>
                 <th className="py-4 px-6 font-semibold text-sm text-stone-600">Produk</th>
+                <th className="py-4 px-6 font-semibold text-sm text-stone-600">Pengiriman</th>
                 <th className="py-4 px-6 font-semibold text-sm text-stone-600">Total Harga</th>
                 <th className="py-4 px-6 font-semibold text-sm text-stone-600">Status</th>
                 <th className="py-4 px-6 font-semibold text-sm text-stone-600 text-right">Aksi</th>
@@ -91,6 +92,14 @@ export default async function AdminOrdersPage() {
                       </div>
                     </td>
                     <td className="py-4 px-6">
+                      <div className="text-sm font-semibold text-stone-900">
+                        {order.delivery_method === "pickup" ? "Ambil di Toko" : "Delivery"}
+                      </div>
+                      <div className="text-xs text-stone-500">
+                        {order.delivery_time || "-"}
+                      </div>
+                    </td>
+                    <td className="py-4 px-6">
                       <div className="text-sm font-medium text-stone-900">{formatCurrency(order.total_price)}</div>
                     </td>
                     <td className="py-4 px-6">
@@ -103,7 +112,7 @@ export default async function AdminOrdersPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-stone-500">
+                  <td colSpan={7} className="py-12 text-center text-stone-500">
                     Belum ada pesanan masuk.
                   </td>
                 </tr>

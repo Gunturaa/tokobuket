@@ -53,7 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.category === "graduation" ? "Kelulusan" :
            product.category === "birthday" ? "Ulang Tahun" :
            product.category === "romantic" ? "Romantis" :
-           product.category === "custom" ? "Kustom" : "Lainnya"}
+           product.category === "ready" ? "Ready Stock" : "Lainnya"}
         </p>
       </div>
     </Link>

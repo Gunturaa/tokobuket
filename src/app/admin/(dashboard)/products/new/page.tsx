@@ -70,7 +70,7 @@ export default function NewProductPage() {
                   <option value="graduation">Kelulusan</option>
                   <option value="birthday">Ulang Tahun</option>
                   <option value="romantic">Romantis</option>
-                  <option value="custom">Kustom</option>
+                  <option value="ready">Ready Stock</option>
                   <option value="other">Lainnya</option>
                 </select>
               </div>

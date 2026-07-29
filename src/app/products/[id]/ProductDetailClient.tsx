@@ -13,6 +13,8 @@ export default function ProductDetailClient({ product, settings }: { product: an
   const [customMessage, setCustomMessage] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
+  const [deliveryMethod, setDeliveryMethod] = useState("pickup");
+  const [deliveryTime, setDeliveryTime] = useState("");
   const [isPending, startTransition] = useTransition();
 
   if (!product) {
@@ -31,6 +33,8 @@ export default function ProductDetailClient({ product, settings }: { product: an
           customer_phone: customerPhone,
           custom_message: customMessage,
           total_price: product.price,
+          delivery_method: deliveryMethod,
+          delivery_time: deliveryTime,
         });
 
         const phoneNumber = settings?.whatsapp_number || "6289515441332";
@@ -40,6 +44,8 @@ export default function ProductDetailClient({ product, settings }: { product: an
 
 Nama: ${customerName}
 Produk: ${product.name}
+Metode: ${deliveryMethod === "pickup" ? "Ambil di Toko" : "Kirim (Delivery)"}
+Waktu: ${deliveryTime || "-"}
 Ucapan: ${customMessage || "-"}
 Total Harga: ${formatCurrency(product.price)}`;
 
@@ -101,7 +107,7 @@ Total Harga: ${formatCurrency(product.price)}`;
                 {product.category === "graduation" ? "Kelulusan" :
                  product.category === "birthday" ? "Ulang Tahun" :
                  product.category === "romantic" ? "Romantis" :
-                 product.category === "custom" ? "Kustom" : "Lainnya"}
+                 product.category === "ready" ? "Ready Stock" : "Lainnya"}
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-4">
@@ -143,6 +149,33 @@ Total Harga: ${formatCurrency(product.price)}`;
                     placeholder="Contoh: 08123456789"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="method" className="block text-sm font-medium text-stone-900 mb-2">Metode Pengiriman *</label>
+                  <select
+                    id="method"
+                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
+                    value={deliveryMethod}
+                    onChange={(e) => setDeliveryMethod(e.target.value)}
+                  >
+                    <option value="pickup">Ambil di Toko (Pickup)</option>
+                    <option value="delivery">Kirim ke Lokasi (Delivery)</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="time" className="block text-sm font-medium text-stone-900 mb-2">Waktu {deliveryMethod === "pickup" ? "Pengambilan" : "Pengiriman"} *</label>
+                  <input
+                    type="text"
+                    id="time"
+                    required
+                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
+                    placeholder="Contoh: Besok Siang jam 12"
+                    value={deliveryTime}
+                    onChange={(e) => setDeliveryTime(e.target.value)}
                   />
                 </div>
               </div>
