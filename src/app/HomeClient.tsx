@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight, Star, Heart, Award, Sparkles, Image as ImageIcon } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
+import Image from "next/image";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -20,14 +21,6 @@ const staggerContainer: Variants = {
   }
 };
 
-// Placeholder component for images
-const ImagePlaceholder = ({ text, className }: { text: string; className?: string }) => (
-  <div className={`flex flex-col items-center justify-center bg-gradient-to-tr from-pink-100 via-rose-50 to-amber-50 animate-pulse-gradient text-pink-300 border border-white/50 ${className || ""}`}>
-    <ImageIcon className="w-12 h-12 mb-3 opacity-60 drop-shadow-sm" />
-    <span className="text-sm font-semibold tracking-wider uppercase text-pink-400/80">{text}</span>
-  </div>
-);
-
 export default function HomeClient({ products }: { products: any[] }) {
   const featuredProducts = products.filter(p => p.isPopular).slice(0, 3);
 
@@ -36,7 +29,10 @@ export default function HomeClient({ products }: { products: any[] }) {
       {/* Hero Section */}
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <ImagePlaceholder text="Gambar Hero / Banner" className="w-full h-full" />
+          <div className="flex flex-col items-center justify-center bg-gradient-to-tr from-pink-100 via-rose-50 to-amber-50 animate-pulse-gradient text-pink-300 border border-white/50 w-full h-full">
+            <ImageIcon className="w-12 h-12 mb-3 opacity-60 drop-shadow-sm" />
+            <span className="text-sm font-semibold tracking-wider uppercase text-pink-400/80">Gambar Hero / Banner</span>
+          </div>
           <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
         </div>
         
@@ -150,7 +146,11 @@ export default function HomeClient({ products }: { products: any[] }) {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Link href="/products?category=graduation" className="group relative h-[300px] rounded-2xl overflow-hidden">
-              <ImagePlaceholder text="Gambar Kategori Kelulusan" className="absolute inset-0" />
+              {products.find(p => p.category === 'graduation' && p.imageUrl)?.imageUrl ? (
+                <Image src={products.find(p => p.category === 'graduation' && p.imageUrl)!.imageUrl!} alt="Kelulusan" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+              ) : (
+                <div className="absolute inset-0 bg-stone-300 flex items-center justify-center"><ImageIcon className="w-12 h-12 text-stone-400" /></div>
+              )}
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
                 <h3 className="text-3xl font-serif font-bold mb-2">Kelulusan</h3>
@@ -160,17 +160,26 @@ export default function HomeClient({ products }: { products: any[] }) {
             
             <div className="grid grid-cols-2 gap-6">
               <Link href="/products?category=birthday" className="group relative h-[300px] rounded-2xl overflow-hidden">
-                <ImagePlaceholder text="Gambar Kategori Ulang Tahun" className="absolute inset-0" />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
-                  <h3 className="text-xl font-serif font-bold mb-2">Ulang Tahun</h3>
+                {products.find(p => p.category === 'birthday' && p.imageUrl)?.imageUrl ? (
+                  <Image src={products.find(p => p.category === 'birthday' && p.imageUrl)!.imageUrl!} alt="Ulang Tahun" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                ) : (
+                  <div className="absolute inset-0 bg-stone-300 flex items-center justify-center"><ImageIcon className="w-12 h-12 text-stone-400" /></div>
+                )}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
+                  <h3 className="text-xl font-serif font-bold mb-1">Ulang Tahun</h3>
                 </div>
               </Link>
+              
               <Link href="/products?category=romantic" className="group relative h-[300px] rounded-2xl overflow-hidden">
-                <ImagePlaceholder text="Gambar Kategori Romantis" className="absolute inset-0" />
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
-                  <h3 className="text-xl font-serif font-bold mb-2">Romantis</h3>
+                {products.find(p => p.category === 'romantic' && p.imageUrl)?.imageUrl ? (
+                  <Image src={products.find(p => p.category === 'romantic' && p.imageUrl)!.imageUrl!} alt="Romantis" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                ) : (
+                  <div className="absolute inset-0 bg-stone-300 flex items-center justify-center"><ImageIcon className="w-12 h-12 text-stone-400" /></div>
+                )}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-4">
+                  <h3 className="text-xl font-serif font-bold mb-1">Romantis</h3>
                 </div>
               </Link>
             </div>
