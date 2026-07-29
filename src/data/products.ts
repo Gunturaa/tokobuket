@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  category: "graduation" | "birthday" | "romantic" | "custom" | "other";
+  category: "graduation" | "birthday" | "romantic" | "ready" | "other";
   imageUrl: string;
   isPopular?: boolean;
 }
@@ -52,11 +52,11 @@ export const products: Product[] = [
     imageUrl: "",
   },
   {
-    id: "custom-01",
-    name: "Buket Kustom Eksklusif",
-    description: "Punya ide spesifik? Biarkan florist kami merangkai buket unik yang disesuaikan sempurna dengan preferensi, tema warna, dan budget Anda.",
+    id: "ready-01",
+    name: "Buket Ready Stock Eksklusif",
+    description: "Buket yang sudah dirangkai indah dan siap untuk langsung dikirim hari ini. Solusi tepat untuk hadiah mendadak namun tetap berkesan.",
     price: 500000,
-    category: "custom",
+    category: "ready",
     imageUrl: "",
     isPopular: true,
   },
