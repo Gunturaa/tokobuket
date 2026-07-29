@@ -9,6 +9,7 @@ export async function createCheckoutOrder(data: {
   delivery_time: string;
   items: any[];
   total_price: number;
+  custom_message?: string;
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -21,6 +22,7 @@ export async function createCheckoutOrder(data: {
       customer_phone: data.customer_phone,
       delivery_method: data.delivery_method,
       delivery_time: data.delivery_time,
+      custom_message: data.custom_message || null,
       items: data.items,
       total_price: data.total_price,
     })

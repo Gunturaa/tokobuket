@@ -16,6 +16,7 @@ export default function CheckoutClient({ settings }: { settings: any }) {
   const [customerPhone, setCustomerPhone] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState("pickup");
   const [deliveryTime, setDeliveryTime] = useState("");
+  const [customMessage, setCustomMessage] = useState("");
   
   const [isPending, startTransition] = useTransition();
 
@@ -37,6 +38,7 @@ export default function CheckoutClient({ settings }: { settings: any }) {
           customer_phone: customerPhone,
           delivery_method: deliveryMethod,
           delivery_time: deliveryTime,
+          custom_message: customMessage,
           items: items,
           total_price: totalPrice,
         });
@@ -55,7 +57,7 @@ export default function CheckoutClient({ settings }: { settings: any }) {
 Nama: ${customerName}
 Metode: ${deliveryMethod === "pickup" ? "Ambil di Toko" : "Kirim (Delivery)"}
 Waktu: ${deliveryTime || "-"}
-
+${customMessage ? `\nPesan Kartu Ucapan:\n"${customMessage}"\n` : ""}
 Pesanan:
 ${itemsText}
 
@@ -142,6 +144,16 @@ Total Harga: *${formatCurrency(totalPrice)}*`;
                       onChange={(e) => setDeliveryTime(e.target.value)}
                     />
                   </div>
+                </div>
+
+                <div className="mt-6">
+                  <label className="block text-sm font-medium text-stone-900 mb-2">Isi Kartu Ucapan (Opsional)</label>
+                  <textarea
+                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary p-4 bg-stone-50 border outline-none min-h-[100px]"
+                    placeholder="Tuliskan ucapan untuk penerima buket bunga..."
+                    value={customMessage}
+                    onChange={(e) => setCustomMessage(e.target.value)}
+                  />
                 </div>
               </form>
             </div>
