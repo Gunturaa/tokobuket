@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #f472b6; /* pink-400 */
+  --color-primary-light: #fbcfe8; /* pink-200 */
+  --color-primary-dark: #db2777; /* pink-600 */
+  
+  --color-secondary: #fef3c7; /* amber-100 (cream) */
+  --color-accent: #d6d3d1; /* stone-300 (light brown/grey) */
+  
+  --color-background: #fffafa; /* very subtle pink tint */
+  --color-foreground: #1c1917; /* stone-900 */
+
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #fffafa;
+  --foreground: #1c1917;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(340, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(38, 100%, 90%, 1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(340, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(38, 100%, 90%, 1) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .glass {
+    @apply bg-white/60 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  }
+  
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/50 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(244,114,182,0.15)] transition-all duration-300;
+  }
+}
+
+@keyframes pulse-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-pulse-gradient {
+  background-size: 200% 200%;
+  animation: pulse-gradient 4s ease infinite;
 }

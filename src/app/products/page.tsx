@@ -1,16 +1,14 @@
 import { createClient } from "@/utils/supabase/server";
-import HomeClient from "./HomeClient";
+import ProductsClient from "./ProductsClient";
 
-export default async function HomePage() {
+export default async function ProductsPage() {
   const supabase = await createClient();
   
-  // Fetch products from Supabase
   const { data: productsData } = await supabase
     .from("products")
     .select("*")
     .order("created_at", { ascending: false });
 
-  // Map snake_case to camelCase to match the existing frontend Product interface
   const products = (productsData || []).map((p: any) => ({
     id: p.id,
     name: p.name,
@@ -22,5 +20,5 @@ export default async function HomePage() {
     isAvailable: p.is_available,
   }));
 
-  return <HomeClient products={products} />;
+  return <ProductsClient products={products} />;
 }

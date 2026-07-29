@@ -1,0 +1,151 @@
+"use client";
+
+import { useState, use } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { motion } from "framer-motion";
+import { ArrowLeft, MessageCircle, Truck, ShieldCheck, Clock, Image as ImageIcon } from "lucide-react";
+import { formatCurrency } from "@/lib/format";
+
+export default function ProductDetailClient({ product }: { product: any }) {
+  const [customMessage, setCustomMessage] = useState("");
+
+  if (!product) {
+    notFound();
+  }
+
+  const handleOrder = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const phoneNumber = "6289515441332";
+    const text = `Halo kak, saya mau pesan:
+Produk: ${product.name}
+Ucapan: ${customMessage || "-"}
+Harga: ${formatCurrency(product.price)}`;
+
+    const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+    window.open(waUrl, "_blank");
+  };
+
+  return (
+    <div className="min-h-screen bg-white py-12">
+      <div className="container mx-auto px-4">
+        
+        <Link 
+          href="/products" 
+          className="inline-flex items-center text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors mb-8"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Kembali ke Koleksi
+        </Link>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+          {/* Product Image */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-stone-100 flex items-center justify-center text-stone-400"
+          >
+            {product.imageUrl ? (
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-tr from-pink-100 via-rose-50 to-amber-50 animate-pulse-gradient text-pink-300 flex flex-col items-center justify-center">
+                <ImageIcon className="w-16 h-16 mb-4 opacity-60 drop-shadow-sm" />
+                <span className="font-semibold tracking-wider uppercase text-pink-400/80">Gambar Produk</span>
+              </div>
+            )}
+          </motion.div>
+
+          {/* Product Info */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col"
+          >
+            <div className="mb-2">
+              <span className="text-sm font-medium uppercase tracking-wider text-primary">
+                {product.category === "graduation" ? "Kelulusan" :
+                 product.category === "birthday" ? "Ulang Tahun" :
+                 product.category === "romantic" ? "Romantis" :
+                 product.category === "custom" ? "Kustom" : "Lainnya"}
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-4">
+              {product.name}
+            </h1>
+            <p className="text-2xl font-semibold text-stone-900 mb-6">
+              {formatCurrency(product.price)}
+            </p>
+            
+            <div className="prose prose-stone mb-8">
+              <p className="text-stone-600 leading-relaxed text-lg">
+                {product.description}
+              </p>
+            </div>
+
+            {/* Order Form */}
+            <form onSubmit={handleOrder} className="mt-auto border-t border-stone-200 pt-8">
+              <div className="mb-6">
+                <label htmlFor="message" className="block text-sm font-medium text-stone-900 mb-2">
+                  Pesan di Kartu Ucapan (Opsional)
+                </label>
+                <textarea
+                  id="message"
+                  rows={3}
+                  className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
+                  placeholder="Selamat kelulusan! Semoga sukses selalu..."
+                  value={customMessage}
+                  onChange={(e) => setCustomMessage(e.target.value)}
+                />
+                <p className="text-xs text-stone-500 mt-2">
+                  Pesan ini akan ditulis tangan pada kartu ucapan premium.
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Pesan via WhatsApp
+              </button>
+            </form>
+
+            {/* Trust Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-stone-200">
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center text-stone-600">
+                  <Truck className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium text-stone-600">Pengiriman Dihari yang Sama</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center text-stone-600">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium text-stone-600">Jaminan Kesegaran Bunga</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-2">
+                <div className="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center text-stone-600">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium text-stone-600">Dukungan 24/7</span>
+              </div>
+            </div>
+
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
