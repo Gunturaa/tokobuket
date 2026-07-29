@@ -9,13 +9,7 @@ export default async function AdminOrdersPage() {
   // Fetch orders with their related products
   const { data: orders, error } = await supabase
     .from("orders")
-    .select(`
-      *,
-      products (
-        name,
-        image_url
-      )
-    `)
+    .select("*")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -68,27 +62,31 @@ export default async function AdminOrdersPage() {
                       <div className="text-xs text-stone-500">{order.customer_phone}</div>
                     </td>
                     <td className="py-4 px-6">
-                      <div className="flex items-center gap-3">
-                        {order.products?.image_url ? (
-                          <div className="w-10 h-10 rounded-lg overflow-hidden bg-stone-100 relative shrink-0">
-                            <Image 
-                              src={order.products.image_url} 
-                              alt="Product" 
-                              fill 
-                              className="object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div className="w-10 h-10 rounded-lg bg-stone-100 shrink-0" />
-                        )}
-                        <div>
-                          <div className="text-sm font-medium text-stone-900 line-clamp-1">{order.products?.name || "Produk Dihapus"}</div>
-                          {order.custom_message && (
-                            <div className="text-xs text-stone-500 italic line-clamp-1 truncate max-w-[150px]" title={order.custom_message}>
-                              "{order.custom_message}"
+                      <div className="flex flex-col gap-2">
+                        {order.items && order.items.length > 0 ? (
+                          order.items.map((item: any, idx: number) => (
+                            <div key={idx} className="flex items-center gap-3">
+                              {item.product.image_url ? (
+                                <div className="w-10 h-10 rounded-lg overflow-hidden bg-stone-100 relative shrink-0">
+                                  <Image 
+                                    src={item.product.image_url} 
+                                    alt="Product" 
+                                    fill 
+                                    className="object-cover"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="w-10 h-10 rounded-lg bg-stone-100 shrink-0 flex items-center justify-center text-xs text-stone-400">IMG</div>
+                              )}
+                              <div>
+                                <div className="text-sm font-medium text-stone-900 line-clamp-1">{item.product.name}</div>
+                                <div className="text-xs text-stone-500">{item.quantity} x {formatCurrency(item.product.price)}</div>
+                              </div>
                             </div>
-                          )}
-                        </div>
+                          ))
+                        ) : (
+                          <span className="text-sm text-stone-500 italic">Data lama (tanpa items)</span>
+                        )}
                       </div>
                     </td>
                     <td className="py-4 px-6">

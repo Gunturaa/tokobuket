@@ -31,14 +31,36 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Require login for any route starting with /admin (except /admin/login)
-  if (
-    !user &&
-    request.nextUrl.pathname.startsWith('/admin') &&
-    request.nextUrl.pathname !== '/admin/login'
-  ) {
+  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin') && request.nextUrl.pathname !== '/admin/login';
+  const isAccountRoute = request.nextUrl.pathname.startsWith('/account');
+
+  // Admin access control
+  if (isAdminRoute) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/admin/login'
+      return NextResponse.redirect(url)
+    }
+    
+    // Check if user is the admin
+    if (user.email !== process.env.ADMIN_EMAIL) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
+  }
+
+  // Account access control (for customers)
+  if (isAccountRoute && !user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/admin/login'
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
+  }
+
+  // Prevent logged-in users from accessing login/register pages
+  if (user && (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register')) {
+    const url = request.nextUrl.clone()
+    url.pathname = user.email === process.env.ADMIN_EMAIL ? '/admin' : '/account'
     return NextResponse.redirect(url)
   }
 

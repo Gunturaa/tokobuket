@@ -5,56 +5,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, MessageCircle, Truck, ShieldCheck, Clock, Image as ImageIcon, Loader2 } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Truck, ShieldCheck, Clock, Image as ImageIcon, Minus, Plus } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
-import { createOrder } from "../actions";
+import { useCart } from "@/components/CartContext";
+import { useRouter } from "next/navigation";
 
 export default function ProductDetailClient({ product, settings }: { product: any, settings: any }) {
-  const [customMessage, setCustomMessage] = useState("");
-  const [customerName, setCustomerName] = useState("");
-  const [customerPhone, setCustomerPhone] = useState("");
-  const [deliveryMethod, setDeliveryMethod] = useState("pickup");
-  const [deliveryTime, setDeliveryTime] = useState("");
-  const [isPending, startTransition] = useTransition();
+  const { addItem } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   if (!product) {
     notFound();
   }
 
-  const handleOrder = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!customerName || !customerPhone) return;
-
-    startTransition(async () => {
-      try {
-        const order = await createOrder({
-          product_id: product.id,
-          customer_name: customerName,
-          customer_phone: customerPhone,
-          custom_message: customMessage,
-          total_price: product.price,
-          delivery_method: deliveryMethod,
-          delivery_time: deliveryTime,
-        });
-
-        const phoneNumber = settings?.whatsapp_number || "6289515441332";
-        const defaultMsg = settings?.default_message || "Halo kak, saya mau pesan:";
-        const text = `${defaultMsg}
-[Order ID: #${order.id.slice(0, 8).toUpperCase()}]
-
-Nama: ${customerName}
-Produk: ${product.name}
-Metode: ${deliveryMethod === "pickup" ? "Ambil di Toko" : "Kirim (Delivery)"}
-Waktu: ${deliveryTime || "-"}
-Ucapan: ${customMessage || "-"}
-Total Harga: ${formatCurrency(product.price)}`;
-
-        const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
-        window.open(waUrl, "_blank");
-      } catch (error) {
-        alert("Gagal memproses pesanan. Silakan coba lagi.");
-      }
-    });
+  const handleAddToCart = () => {
+    addItem(product, quantity);
+    router.push("/cart");
   };
 
 
@@ -123,95 +90,34 @@ Total Harga: ${formatCurrency(product.price)}`;
               </p>
             </div>
 
-            {/* Order Form */}
-            <form onSubmit={handleOrder} className="mt-auto border-t border-stone-200 pt-8">
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-stone-900 mb-2">Nama Lengkap *</label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
-                    placeholder="Contoh: Budi Santoso"
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-stone-900 mb-2">Nomor WhatsApp *</label>
-                  <input
-                    type="text"
-                    id="phone"
-                    required
-                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
-                    placeholder="Contoh: 08123456789"
-                    value={customerPhone}
-                    onChange={(e) => setCustomerPhone(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label htmlFor="method" className="block text-sm font-medium text-stone-900 mb-2">Metode Pengiriman *</label>
-                  <select
-                    id="method"
-                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
-                    value={deliveryMethod}
-                    onChange={(e) => setDeliveryMethod(e.target.value)}
+            <div className="mt-8 border-t border-stone-200 pt-8">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-stone-900 font-medium">Jumlah:</span>
+                <div className="flex items-center gap-3 bg-stone-50 rounded-full border border-stone-200 px-2 py-1">
+                  <button 
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-stone-600 hover:bg-white hover:shadow-sm transition-all"
                   >
-                    <option value="pickup">Ambil di Toko (Pickup)</option>
-                    <option value="delivery">Kirim ke Lokasi (Delivery)</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="time" className="block text-sm font-medium text-stone-900 mb-2">Waktu {deliveryMethod === "pickup" ? "Pengambilan" : "Pengiriman"} *</label>
-                  <input
-                    type="text"
-                    id="time"
-                    required
-                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
-                    placeholder="Contoh: Besok Siang jam 12"
-                    value={deliveryTime}
-                    onChange={(e) => setDeliveryTime(e.target.value)}
-                  />
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="font-semibold text-stone-900 w-6 text-center">{quantity}</span>
+                  <button 
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-stone-600 hover:bg-white hover:shadow-sm transition-all"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-stone-900 mb-2">
-                  Pesan di Kartu Ucapan (Opsional)
-                </label>
-                <textarea
-                  id="message"
-                  rows={3}
-                  className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
-                  placeholder="Selamat kelulusan! Semoga sukses selalu..."
-                  value={customMessage}
-                  onChange={(e) => setCustomMessage(e.target.value)}
-                />
-                <p className="text-xs text-stone-500 mt-2">
-                  Pesan ini akan ditulis tangan pada kartu ucapan premium.
-                </p>
-              </div>
-
-              <div className="space-y-4 pt-4">
+              <div className="space-y-4">
                 {(!settings || settings.is_open) ? (
                   <button 
-                    type="submit"
-                    disabled={isPending}
-                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-medium py-4 px-8 rounded-xl flex items-center justify-center transition-all hover:-translate-y-1 active:scale-[0.98] shadow-lg disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                    onClick={handleAddToCart}
+                    className="w-full bg-stone-900 hover:bg-stone-800 text-white font-medium py-4 px-8 rounded-xl flex items-center justify-center transition-all hover:-translate-y-1 active:scale-[0.98] shadow-lg"
                   >
-                    {isPending ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <>
-                        <MessageCircle className="w-5 h-5 mr-2" />
-                        Pesan via WhatsApp
-                      </>
-                    )}
+                    <ShoppingBag className="w-5 h-5 mr-2" />
+                    Masukkan ke Keranjang
                   </button>
                 ) : (
                   <button 
@@ -221,12 +127,8 @@ Total Harga: ${formatCurrency(product.price)}`;
                     Toko Sedang Tutup
                   </button>
                 )}
-                
-                <p className="text-center text-xs text-stone-500">
-                  Pembayaran dilakukan setelah pesanan dikonfirmasi via WhatsApp
-                </p>
               </div>
-            </form>
+            </div>
 
             {/* Trust Badges */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-stone-200">

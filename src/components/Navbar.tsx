@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Flower2, Menu, X } from "lucide-react";
+import { Flower2, Menu, X, ShoppingBag, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useCart } from "./CartContext";
 
 const navLinks = [
   { name: "Beranda", href: "/" },
@@ -18,6 +19,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { totalItems } = useCart();
 
   useEffect(() => {
     let ticking = false;
@@ -71,16 +73,38 @@ export function Navbar() {
           >
             Hubungi Kami
           </Link>
+          <div className="flex items-center gap-4 border-l border-stone-200 pl-4 ml-2">
+            <Link href="/account" className="text-stone-600 hover:text-primary transition-colors">
+              <User className="w-5 h-5" />
+            </Link>
+            <Link href="/cart" className="text-stone-600 hover:text-primary transition-colors relative">
+              <ShoppingBag className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
+          </div>
         </nav>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden p-2 text-stone-600"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle Menu"
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        <div className="md:hidden flex items-center gap-4">
+          <Link href="/cart" className="text-stone-600 hover:text-primary transition-colors relative">
+            <ShoppingBag className="w-5 h-5" />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 w-4 h-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+          <button
+            className="p-2 text-stone-600 -mr-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
@@ -106,6 +130,14 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                href="/account"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 text-lg font-medium text-stone-600 mt-2"
+              >
+                <User className="w-5 h-5" />
+                Akun Saya
+              </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}

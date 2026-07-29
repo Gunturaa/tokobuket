@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloatingButton } from "@/components/WhatsAppFloatingButton";
 import { createClient } from "@/utils/supabase/server";
+import { CartProvider } from "@/components/CartContext";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -37,13 +38,15 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${outfit.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col pt-24 bg-background text-foreground relative">
-        <Navbar />
-        <main className="flex-grow flex flex-col">
-          {children}
-        </main>
-        <Footer />
-        <WhatsAppFloatingButton settings={settings} />
+      <body suppressHydrationWarning className="min-h-full flex flex-col pt-24 bg-background text-foreground relative">
+        <CartProvider>
+          <Navbar />
+          <main className="flex-grow flex flex-col">
+            {children}
+          </main>
+          <Footer />
+          <WhatsAppFloatingButton settings={settings} />
+        </CartProvider>
       </body>
     </html>
   );

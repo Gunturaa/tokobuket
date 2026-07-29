@@ -101,7 +101,10 @@ export default function TrackOrderClient() {
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
                   <div className={`w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-sm ${getStatusDisplay(order.status).color}`}>
-                    {getStatusDisplay(order.status).icon({ className: "w-8 h-8" })}
+                    {(() => {
+                      const Icon = getStatusDisplay(order.status).icon;
+                      return <Icon className="w-8 h-8" />;
+                    })()}
                   </div>
                   <div>
                     <h3 className={`text-2xl font-bold ${getStatusDisplay(order.status).color}`}>
@@ -123,30 +126,38 @@ export default function TrackOrderClient() {
             <div className="p-8">
               <h4 className="font-serif font-bold text-xl text-stone-900 mb-6">Detail Pesanan</h4>
               
-              <div className="flex flex-col md:flex-row gap-8">
-                {/* Product Box */}
-                <div className="flex-1 bg-stone-50 rounded-2xl p-6 border border-stone-100 flex items-center gap-6">
-                  {order.products?.image_url ? (
-                    <div className="w-24 h-24 rounded-xl overflow-hidden bg-white relative shrink-0 shadow-sm">
-                      <Image 
-                        src={order.products.image_url} 
-                        alt="Product" 
-                        fill 
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-24 h-24 rounded-xl bg-stone-200 shrink-0" />
-                  )}
-                  <div>
-                    <h5 className="font-bold text-lg text-stone-900">{order.products?.name || "Produk Dihapus"}</h5>
-                    <p className="text-primary font-medium mt-1">{formatCurrency(order.total_price)}</p>
-                    {order.custom_message && (
-                      <div className="mt-3 text-sm text-stone-600 italic bg-white p-3 rounded-lg border border-stone-200">
-                        "{order.custom_message}"
+              <div className="flex flex-col gap-6">
+                {/* Product Boxes */}
+                <div className="space-y-4">
+                  {order.items && order.items.length > 0 ? (
+                    order.items.map((item: any, idx: number) => (
+                      <div key={idx} className="bg-stone-50 rounded-2xl p-6 border border-stone-100 flex items-center gap-6">
+                        {item.product.image_url ? (
+                          <div className="w-20 h-20 rounded-xl overflow-hidden bg-white relative shrink-0 shadow-sm">
+                            <Image 
+                              src={item.product.image_url} 
+                              alt="Product" 
+                              fill 
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-20 h-20 rounded-xl bg-stone-200 shrink-0" />
+                        )}
+                        <div>
+                          <h5 className="font-bold text-lg text-stone-900">{item.product.name}</h5>
+                          <p className="text-stone-500">{item.quantity} x {formatCurrency(item.product.price)}</p>
+                        </div>
+                        <div className="ml-auto font-bold text-stone-900">
+                          {formatCurrency(item.quantity * item.product.price)}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                    ))
+                  ) : (
+                    <div className="bg-stone-50 rounded-2xl p-6 border border-stone-100">
+                      <p className="text-stone-500 italic">Data produk versi lama tidak tersedia</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Info List */}
