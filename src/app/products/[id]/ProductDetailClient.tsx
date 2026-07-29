@@ -1,15 +1,19 @@
 "use client";
 
-import { useState, use } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, MessageCircle, Truck, ShieldCheck, Clock, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, MessageCircle, Truck, ShieldCheck, Clock, Image as ImageIcon, Loader2 } from "lucide-react";
 import { formatCurrency } from "@/lib/format";
+import { createOrder } from "../actions";
 
 export default function ProductDetailClient({ product, settings }: { product: any, settings: any }) {
   const [customMessage, setCustomMessage] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [isPending, startTransition] = useTransition();
 
   if (!product) {
     notFound();
@@ -17,17 +21,36 @@ export default function ProductDetailClient({ product, settings }: { product: an
 
   const handleOrder = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const phoneNumber = settings?.whatsapp_number || "6289515441332";
-    const defaultMsg = settings?.default_message || "Halo kak, saya mau pesan:";
-    const text = `${defaultMsg}
+    if (!customerName || !customerPhone) return;
+
+    startTransition(async () => {
+      try {
+        const order = await createOrder({
+          product_id: product.id,
+          customer_name: customerName,
+          customer_phone: customerPhone,
+          custom_message: customMessage,
+          total_price: product.price,
+        });
+
+        const phoneNumber = settings?.whatsapp_number || "6289515441332";
+        const defaultMsg = settings?.default_message || "Halo kak, saya mau pesan:";
+        const text = `${defaultMsg}
+[Order ID: #${order.id.slice(0, 8).toUpperCase()}]
+
+Nama: ${customerName}
 Produk: ${product.name}
 Ucapan: ${customMessage || "-"}
-Harga: ${formatCurrency(product.price)}`;
+Total Harga: ${formatCurrency(product.price)}`;
 
-    const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
-    window.open(waUrl, "_blank");
+        const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
+        window.open(waUrl, "_blank");
+      } catch (error) {
+        alert("Gagal memproses pesanan. Silakan coba lagi.");
+      }
+    });
   };
+
 
   return (
     <div className="min-h-screen bg-white py-12">
@@ -96,6 +119,34 @@ Harga: ${formatCurrency(product.price)}`;
 
             {/* Order Form */}
             <form onSubmit={handleOrder} className="mt-auto border-t border-stone-200 pt-8">
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-stone-900 mb-2">Nama Lengkap *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    required
+                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
+                    placeholder="Contoh: Budi Santoso"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-stone-900 mb-2">Nomor WhatsApp *</label>
+                  <input
+                    type="text"
+                    id="phone"
+                    required
+                    className="w-full rounded-xl border-stone-300 shadow-sm focus:border-primary focus:ring-primary text-sm p-4 bg-stone-50 border outline-none transition-all"
+                    placeholder="Contoh: 08123456789"
+                    value={customerPhone}
+                    onChange={(e) => setCustomerPhone(e.target.value)}
+                  />
+                </div>
+              </div>
+
               <div className="mb-6">
                 <label htmlFor="message" className="block text-sm font-medium text-stone-900 mb-2">
                   Pesan di Kartu Ucapan (Opsional)
@@ -117,10 +168,17 @@ Harga: ${formatCurrency(product.price)}`;
                 {(!settings || settings.is_open) ? (
                   <button 
                     type="submit"
-                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-medium py-4 px-8 rounded-xl flex items-center justify-center transition-all hover:-translate-y-1 active:scale-[0.98] shadow-lg"
+                    disabled={isPending}
+                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-medium py-4 px-8 rounded-xl flex items-center justify-center transition-all hover:-translate-y-1 active:scale-[0.98] shadow-lg disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    <MessageCircle className="w-5 h-5 mr-2" />
-                    Pesan via WhatsApp
+                    {isPending ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <MessageCircle className="w-5 h-5 mr-2" />
+                        Pesan via WhatsApp
+                      </>
+                    )}
                   </button>
                 ) : (
                   <button 

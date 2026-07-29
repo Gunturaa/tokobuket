@@ -25,7 +25,7 @@ export function Footer() {
     <footer className="bg-stone-900 text-stone-300 py-16 mt-auto">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
-          
+
           <div className="md:col-span-1 space-y-4">
             <Link href="/" className="flex items-center gap-2 text-white">
               <Flower2 className="w-8 h-8 text-primary" />
@@ -86,13 +86,13 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <MapPin className="w-5 h-5 text-primary shrink-0" />
-                <span>Jakarta, Indonesia<br />(Pengiriman tersedia di seluruh kota)</span>
+                <span>Yogyakarta, Indonesia<br />(Pengiriman tersedia di seluruh kota)</span>
               </li>
             </ul>
           </div>
 
         </div>
-        
+
         <div className="border-t border-stone-800 mt-16 pt-8 text-center text-sm text-stone-500 flex flex-col md:flex-row items-center justify-between">
           <p>&copy; {new Date().getFullYear()} Lila of the Valley. Hak Cipta Dilindungi.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
