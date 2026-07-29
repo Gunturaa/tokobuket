@@ -8,6 +8,8 @@ export async function createOrder(data: {
   customer_phone: string;
   custom_message: string;
   total_price: number;
+  delivery_method: string;
+  delivery_time: string;
 }) {
   const supabase = await createClient();
   
